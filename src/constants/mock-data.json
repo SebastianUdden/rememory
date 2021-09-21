@@ -1,0 +1,32 @@
+[
+  {
+    "id": "1",
+    "title": "Sofia Carlsson",
+    "description": "Sambo",
+    "tags": ["people", "family"]
+  },
+  {
+    "id": "2",
+    "title": "Estelle Uddén",
+    "description": "Daughter",
+    "tags": ["people", "family", "kids"]
+  },
+  {
+    "id": "3",
+    "title": "Lasagne",
+    "description": "Cook in oven, use pasta and lots of bechamél sauce.",
+    "tags": ["food", "cooking"]
+  },
+  {
+    "id": "4",
+    "title": "Carbonara",
+    "description": "Cook on the stove, use pasta and break a few eggs.",
+    "tags": ["food", "cooking"]
+  },
+  {
+    "id": "5",
+    "title": "Mac'n'cheese",
+    "description": "Cook on the stove, use pasta and lots of delicious cheese.",
+    "tags": ["food", "cooking"]
+  }
+]
