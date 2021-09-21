@@ -86,6 +86,7 @@ const Edit = ({
   }, []);
 
   useEffect(() => {
+    // eslint-disable-next-line
     updateParents({ id: edit.id, title }, children);
     // eslint-disable-next-line
   }, [children]);
