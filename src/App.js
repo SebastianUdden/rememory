@@ -4,6 +4,9 @@ import "./App.css";
 import Data from "./components/data/Data";
 import ImportExport from "./components/importExport/ImportExport";
 import DataLoader from "./components/loader/DataLoader";
+import { arrowBack } from "./svgs/arrowBack";
+import { settingsApplication } from "./svgs/settingsApplication";
+import SVG from "./svgs/SVG";
 
 const Wrapper = styled.div`
   padding: 20px;
@@ -68,7 +71,11 @@ function App() {
       <header className="App-header">
         <Wrapper>
           <SettingsButton onClick={() => setShowSettings(!showSettings)}>
-            {showSettings ? "Hide settings" : "Settings"}
+            {showSettings ? (
+              <SVG {...arrowBack} />
+            ) : (
+              <SVG {...settingsApplication} />
+            )}
           </SettingsButton>
           <Title>
             <Strong>Re</Strong>Memory

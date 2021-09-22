@@ -14,7 +14,6 @@ const Menu = styled.ul`
   transition: left 350ms ease;
   padding: 80px 40px 30px 72px;
   overflow: scroll;
-  border: 2px solid red;
 `;
 
 const Item = styled.li`
