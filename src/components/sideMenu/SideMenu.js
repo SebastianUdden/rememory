@@ -12,7 +12,7 @@ const Menu = styled.ul`
   color: white;
   z-index: 99;
   transition: left 350ms ease;
-  padding: 80px 40px 30px 72px;
+  padding: 0px 40px 30px 72px;
   overflow: scroll;
 `;
 
@@ -76,6 +76,12 @@ const Close = styled.button`
     color: black;
   }
 `;
+const Title = styled.h2`
+  font-size: 30px;
+  margin-top: 15px;
+  margin-left: -35px;
+  margin-bottom: 20px;
+`;
 
 const getMetaData = (lvl, metaDataId, onSelectMenu, data) => {
   const level = lvl > 1 ? lvl - 0.5 : 1;
@@ -115,6 +121,7 @@ const SideMenu = ({ showMenu, handleHideMenu, data, onSelectMenu }) => {
 
   return (
     <Menu menuIsOpen={showMenu}>
+      <Title>ReMemory</Title>
       <Close onClick={handleHideMenu}>&times;</Close>
       {data
         ?.find((d) => d.id === 0)
