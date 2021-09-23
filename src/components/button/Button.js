@@ -7,7 +7,7 @@ export const Button = styled.button`
   justify-content: center;
   background-color: inherit;
   color: inherit;
-  border: 1px solid white;
+  border: 1px solid #777;
   cursor: pointer;
   :hover {
     background-color: #222;

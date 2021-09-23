@@ -7,7 +7,7 @@ import { Counter } from "../simpleComponents";
 import Tags from "../tags/Tags";
 
 const Wrapper = styled.div`
-  border: 1px solid white;
+  border: 1px solid #777;
   padding: 6px 10px 10px;
   border-radius: 6px;
   margin-bottom: 10px;
@@ -25,7 +25,7 @@ const Title = styled.h2`
   font-size: 24px;
   width: 100%;
   margin: 0 0 5px;
-  border-bottom: 1px solid white;
+  border-bottom: 1px solid #777;
   text-align: left;
   display: flex;
   justify-content: space-between;

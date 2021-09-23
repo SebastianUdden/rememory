@@ -107,6 +107,7 @@ const SideMenu = ({ showMenu, handleHideMenu, data, onSelectMenu }) => {
       document.body.style.overflow = "auto";
       return;
     }
+    window.scrollTo({ top: 0, behavior: "smooth" });
     document.body.style.margin = "0";
     document.body.style.height = "100%";
     document.body.style.overflow = "hidden";

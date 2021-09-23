@@ -13,12 +13,15 @@ import {
 
 const Delete = styled(Cancel)`
   background-color: #550000;
+  border: 1px solid #550000;
   color: #fff;
   :hover {
     background-color: #660000;
+    border: 1px solid #660000;
   }
   :active {
     background-color: #770000;
+    border: 1px solid #770000;
   }
 `;
 const EditRow = styled(Row)`

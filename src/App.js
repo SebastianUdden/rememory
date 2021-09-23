@@ -4,8 +4,8 @@ import "./App.css";
 import Data from "./components/data/Data";
 import ImportExport from "./components/importExport/ImportExport";
 import DataLoader from "./components/loader/DataLoader";
-import { arrowBack } from "./svgs/arrowBack";
-import { settingsApplication } from "./svgs/settingsApplication";
+import { arrowBack } from "./svgs/arrow-back";
+import { settingsApplication } from "./svgs/settings-application";
 import SVG from "./svgs/SVG";
 
 const Wrapper = styled.div`

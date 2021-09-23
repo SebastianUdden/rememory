@@ -18,7 +18,7 @@ const Tag = styled.span`
     p.isChildren &&
     `
       background-color: inherit;
-      border: 1px solid white;
+      border: 1px solid #777;
   `}
   ${(p) =>
     p.isParents &&

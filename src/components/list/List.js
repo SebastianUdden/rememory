@@ -58,7 +58,7 @@ const List = ({ title, onListChange, defaultList, suggestions }) => {
           </datalist>
         )}
         <ButtonWrapper>
-          <BigButton onClick={addToList} />
+          <BigButton onClick={addToList}>+</BigButton>
         </ButtonWrapper>
       </Row>
       <TagsWrapper>

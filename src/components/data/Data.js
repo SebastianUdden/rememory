@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
+import SVG from "../../svgs/SVG";
 import Add from "../add/Add";
 import BigButton from "../button/BigButton";
 import { Button } from "../button/Button";
@@ -8,6 +9,7 @@ import Search from "../search/Search";
 import SideMenu from "../sideMenu/SideMenu";
 import { Counter } from "../simpleComponents";
 import DataPoints from "./DataPoints";
+import { verticalSplit } from "../../svgs/vertical-split";
 
 const Wrapper = styled.div`
   text-align: left;
@@ -325,11 +327,13 @@ const Data = ({ data }) => {
           <Row>
             {metaDataPoints[0].children.length !== 0 && (
               <ButtonWrapper status={addStatus} margin="0 10px 0 0">
-                <BigButton onClick={() => setShowMenu(true)} text="T" />
+                <BigButton onClick={() => setShowMenu(true)}>
+                  <SVG {...verticalSplit} />
+                </BigButton>
               </ButtonWrapper>
             )}
             <ButtonWrapper status={addStatus} margin="0 10px 0 0">
-              <BigButton onClick={() => setShowAdd(true)} text="+" />
+              <BigButton onClick={() => setShowAdd(true)}>+</BigButton>
             </ButtonWrapper>
             <Search
               searchRef={searchRef}

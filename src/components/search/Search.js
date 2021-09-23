@@ -7,10 +7,11 @@ const Wrapper = styled.div`
 const Input = styled.input`
   background-color: inherit;
   color: inherit;
-  padding: 15px;
-  border: 1px solid white;
+  border: 1px solid #777;
   border-radius: 6px;
   width: 100%;
+  height: 100%;
+  padding: 0 15px;
   font-size: 16px;
   box-sizing: border-box;
 `;

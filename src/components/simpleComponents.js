@@ -10,7 +10,7 @@ export const Input = styled.input`
   background-color: inherit;
   color: inherit;
   padding: 15px;
-  border: 1px solid white;
+  border: 1px solid #777;
   border-radius: 6px;
   width: 100%;
   font-size: 16px;
@@ -21,7 +21,7 @@ export const TextArea = styled.textarea`
   font-family: inherit;
   color: inherit;
   padding: 15px;
-  border: 1px solid white;
+  border: 1px solid #777;
   border-radius: 6px;
   margin-bottom: 15px;
   width: 100%;
