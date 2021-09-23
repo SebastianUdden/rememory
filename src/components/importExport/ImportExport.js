@@ -1,5 +1,8 @@
 import { useState } from "react";
 import styled from "styled-components";
+import SVG from "../../svgs/SVG";
+import { cloudUpload } from "../../svgs/cloud-upload";
+import { cloudDownload } from "../../svgs/cloud-download";
 
 const Wrapper = styled.div`
   display: flex;
@@ -14,6 +17,9 @@ const Button = styled.button`
   border: none;
   border-radius: 6px;
   padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   :hover {
     cursor: pointer;
     background-color: white;
@@ -32,7 +38,9 @@ const Button = styled.button`
 const Strong = styled.strong`
   color: #dd0000;
 `;
-
+const Text = styled.span`
+  margin-left: 8px;
+`;
 // const createFile = (data, filename, type) => {
 //   const file = new Blob([data], { type: type });
 //   if (window.navigator.msSaveOrOpenBlob)
@@ -139,10 +147,13 @@ const parseBlob = (blob) => {
 const ImportExport = () => {
   const [showImport, setShowImport] = useState(false);
 
-  const onFileUpload = (e) => {
+  const onFileUpload = async (e) => {
     const blob = e.target.files[0];
-    if (blob) {
+    if (blob && blob.text) {
       blob.text().then(parseBlob);
+    } else if (blob) {
+      const text = await new Response(blob).text();
+      parseBlob(text);
     }
   };
 
@@ -159,14 +170,18 @@ const ImportExport = () => {
         Exporting data is also a good practice for keeping backups in case the
         localstorage gets corrupted, you lose your device or it gets stolen etc.
       </p>
-      <Button onClick={() => exportData()}>Export data</Button>
+      <Button onClick={() => exportData()}>
+        <SVG {...cloudDownload} />
+        <Text>Export data</Text>
+      </Button>
       <div id="export" />
       <ul>
         <li>Creates a backup file containing all the rememory data</li>
         <li>Send this file to your other device, then...</li>
       </ul>
       <Button onClick={() => setShowImport(true)} disabled={showImport}>
-        Import data
+        <SVG {...cloudUpload} />
+        <Text>Import data</Text>
       </Button>
       <ul>
         {showImport && (

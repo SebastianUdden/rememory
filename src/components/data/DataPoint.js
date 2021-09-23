@@ -95,7 +95,7 @@ const A = styled.a`
 `;
 const Strong = styled.strong`
   font-weight: 700;
-  color: #ccffff;
+  color: #777;
 `;
 const H3 = styled.h3`
   font-size: 16px;
@@ -174,7 +174,7 @@ const formatLink = (d, searchValue, onSelectTag) => {
       </InternalLink>
     );
   }
-  return d;
+  return formatBold(d, searchValue);
 };
 
 const formatRow = (d, searchValue, onUpdateDescription, onSelectTag) => {

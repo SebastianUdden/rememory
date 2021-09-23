@@ -173,7 +173,7 @@ const sideMenu = {
     "Add children to the root in order to show them in the side menu.",
   children: [],
   tags: [],
-  favorite: 1,
+  favorite: 0,
 };
 
 const Data = ({ data }) => {
@@ -291,7 +291,7 @@ const Data = ({ data }) => {
     );
     setPoints(dps.slice(0, MAX_RESULTS));
   }, [searchValue, dataPoints]);
-
+  const root = metaDataPoints.find((md) => md.id === 0);
   return (
     <Wrapper>
       <SideMenu
@@ -325,7 +325,7 @@ const Data = ({ data }) => {
       {!showAdd && !showEdit && (
         <>
           <Row>
-            {metaDataPoints[0].children.length !== 0 && (
+            {root.children.length !== 0 && (
               <ButtonWrapper status={addStatus} margin="0 10px 0 0">
                 <BigButton onClick={() => setShowMenu(true)}>
                   <SVG {...verticalSplit} />
