@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { ButtonWrapper, Input, Label, Row } from "../simpleComponents";
 import Tags from "../tags/Tags";
 import BigButton from "../button/BigButton";
+import { uuidv4 } from "../../utils/utils";
 
 const Wrapper = styled.div``;
 const TagsWrapper = styled.div`
@@ -27,7 +28,7 @@ const List = ({ title, onListChange, defaultList, suggestions }) => {
       const newItem = suggestions.find((v) => v.title === value);
       setList([...list, newItem]);
     } else {
-      setList([...list, { title: value }]);
+      setList([...list, { title: value, id: uuidv4() }]);
     }
     setValue("");
   };
@@ -35,7 +36,6 @@ const List = ({ title, onListChange, defaultList, suggestions }) => {
   useEffect(() => {
     onListChange(list);
   }, [onListChange, list]);
-
   return (
     <Wrapper>
       <Label for={title}>{title}</Label>
@@ -66,8 +66,6 @@ const List = ({ title, onListChange, defaultList, suggestions }) => {
           <Tags
             tags={list.map((l) => l.title || l.value || l)}
             onSelectTag={(value) => {
-              console.log({ value });
-              console.log({ list });
               setList(list.filter((v) => v.title !== value));
             }}
           />

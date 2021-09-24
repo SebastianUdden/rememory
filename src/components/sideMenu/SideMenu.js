@@ -1,19 +1,21 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
+import SVG from "../../svgs/SVG";
+import { close } from "../../svgs/close";
 
 const Menu = styled.ul`
   box-sizing: border-box;
   position: absolute;
   top: -15px;
-  left: ${(p) => (p.menuIsOpen ? "0" : "-100%")};
   width: 100%;
   height: 100vh;
   background-color: #111;
   color: white;
   z-index: 99;
-  transition: left 350ms ease;
+  transition: left 550ms ease;
   padding: 0px 40px 30px 72px;
   overflow: scroll;
+  left: ${(p) => (p.menuIsOpen ? "0" : "-200%")};
 `;
 
 const Item = styled.li`
@@ -59,21 +61,23 @@ const Button = styled.button`
 `;
 
 const Close = styled.button`
+  display: flex;
   background-color: inherit;
   border: 1px solid #fff;
   color: #fff;
-  font-size: 32px;
-  height: 40px;
-  width: 40px;
   border-radius: 6px;
   position: absolute;
   top: 10px;
   right: 10px;
   cursor: pointer;
+  padding: 5px;
   :hover {
     background-color: #fff;
     border: 1px solid inherit;
     color: black;
+    svg {
+      fill: black;
+    }
   }
 `;
 const Title = styled.h2`
@@ -122,7 +126,9 @@ const SideMenu = ({ showMenu, handleHideMenu, data, onSelectMenu }) => {
   return (
     <Menu menuIsOpen={showMenu}>
       <Title>ReMemory</Title>
-      <Close onClick={handleHideMenu}>&times;</Close>
+      <Close onClick={handleHideMenu}>
+        <SVG {...close} />
+      </Close>
       {data
         ?.find((d) => d.id === 0)
         .children?.map(({ id }) => getMetaData(5, id, onSelectMenu, data))}

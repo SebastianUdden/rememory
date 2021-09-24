@@ -10,6 +10,7 @@ import SideMenu from "../sideMenu/SideMenu";
 import { Counter } from "../simpleComponents";
 import DataPoints from "./DataPoints";
 import { verticalSplit } from "../../svgs/vertical-split";
+import { add } from "../../svgs/add";
 
 const Wrapper = styled.div`
   text-align: left;
@@ -326,14 +327,16 @@ const Data = ({ data }) => {
         <>
           <Row>
             {root.children.length !== 0 && (
-              <ButtonWrapper status={addStatus} margin="0 10px 0 0">
+              <ButtonWrapper status={addStatus} margin="0 4px 0 0">
                 <BigButton onClick={() => setShowMenu(true)}>
                   <SVG {...verticalSplit} />
                 </BigButton>
               </ButtonWrapper>
             )}
-            <ButtonWrapper status={addStatus} margin="0 10px 0 0">
-              <BigButton onClick={() => setShowAdd(true)}>+</BigButton>
+            <ButtonWrapper status={addStatus} margin="0 5px 0 0">
+              <BigButton onClick={() => setShowAdd(true)}>
+                <SVG {...add} size={28} />
+              </BigButton>
             </ButtonWrapper>
             <Search
               searchRef={searchRef}
@@ -341,7 +344,7 @@ const Data = ({ data }) => {
               searchValue={searchValue}
               suggestions={tagSuggestions}
             />
-            <ButtonWrapper margin="0 0 0 10px">
+            <ButtonWrapper margin="0 0 0 5px">
               <ClearButton onClick={handleClear}>Clear</ClearButton>
             </ButtonWrapper>
           </Row>
