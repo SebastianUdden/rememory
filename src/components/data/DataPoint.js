@@ -285,6 +285,7 @@ const DataPoint = ({
                 description,
                 tags,
                 children,
+                parents,
                 favorite,
                 lastUpdate,
               })

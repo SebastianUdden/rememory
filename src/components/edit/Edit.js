@@ -59,6 +59,7 @@ const Edit = ({
   const [description, setDescription] = useState(edit.description);
   const [tags, setTags] = useState(edit.tags);
   const [children, setChildren] = useState(edit.children || []);
+  const [parents, setParents] = useState(edit.parents || []);
   const [favorite, setFavorite] = useState(edit.favorite);
   const editRef = useRef(null);
 
@@ -70,6 +71,7 @@ const Edit = ({
       description,
       tags,
       children,
+      parents,
       lastUpdate: new Date(),
       hasBackup: false,
       favorite,
