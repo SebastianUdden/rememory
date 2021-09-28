@@ -55,6 +55,7 @@ function App() {
   const [data] = useState(
     JSON.parse(localStorage.getItem("rememory-data-points"))
   );
+
   useEffect(() => {
     setLoading(true);
     const start = new Date();

@@ -135,7 +135,7 @@ const SideMenu = ({ showMenu, handleHideMenu, data, onSelectMenu }) => {
         <SVG {...close} />
       </Close>
       {data
-        ?.find((d) => d.id === 0)
+        ?.find((d) => d.id === "0")
         .children?.map(({ id }) => getMetaData(5, id, onSelectMenu, data))}
     </Menu>
   );

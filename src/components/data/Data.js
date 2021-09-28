@@ -168,7 +168,7 @@ const ORANGE = "#dd8800";
 const GREY = "#444444";
 
 const sideMenu = {
-  id: 0,
+  id: "0",
   title: "Root",
   description:
     "Add children to the root in order to show them in the side menu.",
@@ -307,15 +307,17 @@ const Data = ({ data }) => {
 
   useEffect(() => {
     const search = searchValue?.toLowerCase().trim();
+    console.log({ dataPoints });
     const dps = dataPoints.filter(
       (dp) =>
+        checkSearchMatch(search, dp.id) ||
         checkSearchMatch(search, dp.title) ||
         checkSearchMatch(search, dp.description) ||
         dp.tags.some((t) => checkSearchMatch(search, t.title))
     );
     setPoints(dps.slice(0, MAX_RESULTS));
   }, [searchValue, dataPoints]);
-  const root = metaDataPoints.find((md) => md.id === 0);
+  const root = metaDataPoints.find((md) => md.id === "0");
   return (
     <Wrapper>
       <SideMenu
