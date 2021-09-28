@@ -253,6 +253,23 @@ const Data = ({ data }) => {
     });
     setDataPoints(updatedDataPoints);
   };
+  const updateChildren = (child, parents) => {
+    const parentsIndexes = parents.map((p) => {
+      return dataPoints?.findIndex((d) => p.id === d.id);
+    });
+    const updatedDataPoints = dataPoints.map((d, i) => {
+      if (parentsIndexes.includes(i)) {
+        const children = d.children || [];
+        const childExists = children.find((p) => p.id === child.id);
+
+        const newChildren = childExists ? children : [...children, child];
+        const result = { ...d, children: newChildren };
+        return result;
+      }
+      return d;
+    });
+    setDataPoints(updatedDataPoints);
+  };
   const onHide = () => onDataChange("#888888");
   const onEdit = (value) => {
     setEdit(value);
@@ -313,6 +330,7 @@ const Data = ({ data }) => {
           tagSuggestions={tagSuggestions}
           childrenSuggestions={childrenSuggestions}
           updateParents={updateParents}
+          updateChildren={updateChildren}
         />
       )}
       {showAdd && (

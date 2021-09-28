@@ -42,6 +42,9 @@ const checkDiff = (edit, newEdit) => {
   if (listDiff(edit, newEdit, "children")) {
     return true;
   }
+  if (listDiff(edit, newEdit, "parents")) {
+    return true;
+  }
   return false;
 };
 
@@ -53,6 +56,7 @@ const Edit = ({
   tagSuggestions,
   childrenSuggestions,
   updateParents,
+  updateChildren,
 }) => {
   const [showDelete, setShowDelete] = useState(false);
   const [title, setTitle] = useState(edit.title);
@@ -83,6 +87,7 @@ const Edit = ({
     description,
     tags,
     children,
+    parents,
     favorite,
   });
 
@@ -95,6 +100,11 @@ const Edit = ({
     updateParents({ id: edit.id, title }, children);
     // eslint-disable-next-line
   }, [children]);
+  useEffect(() => {
+    // eslint-disable-next-line
+    updateChildren({ id: edit.id, title }, parents);
+    // eslint-disable-next-line
+  }, [parents]);
 
   return (
     <Wrapper>
@@ -127,6 +137,12 @@ const Edit = ({
         title="Children"
         onListChange={(list) => setChildren(list)}
         defaultList={children}
+        suggestions={childrenSuggestions}
+      />
+      <List
+        title="Parents"
+        onListChange={(list) => setParents(list)}
+        defaultList={parents}
         suggestions={childrenSuggestions}
       />
       {edit.id !== 0 && (
