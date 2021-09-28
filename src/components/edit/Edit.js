@@ -63,7 +63,9 @@ const Edit = ({
   const [description, setDescription] = useState(edit.description);
   const [tags, setTags] = useState(edit.tags);
   const [children, setChildren] = useState(edit.children || []);
+  const [oldChildren, setOldChildren] = useState([]);
   const [parents, setParents] = useState(edit.parents || []);
+  const [oldParents, setOldParents] = useState([]);
   const [favorite, setFavorite] = useState(edit.favorite);
   const editRef = useRef(null);
 
@@ -96,13 +98,27 @@ const Edit = ({
   }, []);
 
   useEffect(() => {
-    // eslint-disable-next-line
-    updateParents({ id: edit.id, title }, children);
+    const diff = oldChildren.filter((x) => !children.includes(x));
+    if (oldChildren.length > children.length && diff.length) {
+      // eslint-disable-next-line
+      updateParents({ id: edit.id, title }, children, diff[0]);
+    } else {
+      // eslint-disable-next-line
+      updateParents({ id: edit.id, title }, children);
+    }
+    setOldChildren(children);
     // eslint-disable-next-line
   }, [children]);
   useEffect(() => {
-    // eslint-disable-next-line
-    updateChildren({ id: edit.id, title }, parents);
+    const diff = oldParents.filter((x) => !parents.includes(x));
+    if (oldParents.length > parents.length && diff.length) {
+      // eslint-disable-next-line
+      updateChildren({ id: edit.id, title }, parents, diff[0]);
+    } else {
+      // eslint-disable-next-line
+      updateChildren({ id: edit.id, title }, parents);
+    }
+    setOldParents(parents);
     // eslint-disable-next-line
   }, [parents]);
 

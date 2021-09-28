@@ -236,7 +236,7 @@ const Data = ({ data }) => {
     setDataPoints(newDataPoints);
     onDataChange("#880000");
   };
-  const updateParents = (parent, children) => {
+  const updateParents = (parent, children, removedChild) => {
     const childrenIndexes = children.map((c) => {
       return dataPoints?.findIndex((d) => c.id === d.id);
     });
@@ -249,11 +249,14 @@ const Data = ({ data }) => {
         const result = { ...d, parents: newParents };
         return result;
       }
+      if (d.id === removedChild?.id) {
+        return { ...d, parents: d.parents.filter((c) => c.id !== parent.id) };
+      }
       return d;
     });
     setDataPoints(updatedDataPoints);
   };
-  const updateChildren = (child, parents) => {
+  const updateChildren = (child, parents, removedParent) => {
     const parentsIndexes = parents.map((p) => {
       return dataPoints?.findIndex((d) => p.id === d.id);
     });
@@ -265,6 +268,9 @@ const Data = ({ data }) => {
         const newChildren = childExists ? children : [...children, child];
         const result = { ...d, children: newChildren };
         return result;
+      }
+      if (d.id === removedParent?.id) {
+        return { ...d, children: d.children.filter((c) => c.id !== child.id) };
       }
       return d;
     });
