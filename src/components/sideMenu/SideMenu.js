@@ -87,23 +87,28 @@ const Title = styled.h2`
   margin-bottom: 20px;
 `;
 
+const byTitle = (a, b) => {
+  if (a.title > b.title) return 1;
+  if (a.title < b.title) return -1;
+  return 0;
+};
+
 const getMetaData = (lvl, metaDataId, onSelectMenu, data) => {
   const level = lvl > 1 ? lvl - 0.5 : 1;
   const metaData = data?.find((d) => d.id === metaDataId);
   const handleSelect = (e) => {
     onSelectMenu(metaData.title);
   };
+  const children = metaData?.children?.sort(byTitle);
   if (!metaData) return null;
   return (
     <Item lvl={lvl}>
       <Button onClick={handleSelect} lvl={lvl}>
         {metaData.title}
       </Button>
-      {metaData.children && (
+      {children && (
         <ul>
-          {metaData.children.map(({ id }) =>
-            getMetaData(level, id, onSelectMenu, data)
-          )}
+          {children.map(({ id }) => getMetaData(level, id, onSelectMenu, data))}
         </ul>
       )}
     </Item>
