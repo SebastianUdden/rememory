@@ -24,8 +24,11 @@ const List = ({ title, onListChange, defaultList, suggestions }) => {
       setValue("");
       return;
     }
-    if (suggestions[0] && suggestions[0].title) {
-      const newItem = suggestions.find((v) => v.title === value);
+    const newItem =
+      suggestions[0] &&
+      suggestions[0].title &&
+      suggestions.find((v) => v.title === value);
+    if (newItem) {
       setList([...list, newItem]);
     } else {
       setList([...list, { title: value, id: uuidv4() }]);
