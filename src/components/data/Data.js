@@ -73,6 +73,7 @@ const getFavorites = (dataPoints) => {
   const favorites = dataPoints
     .filter((dp) => dp.favorite)
     .map((dp) => ({
+      id: dp.id,
       title: dp.title,
       favorite: parseInt(dp.favorite),
     }));
@@ -281,7 +282,20 @@ const Data = ({ data }) => {
     setEdit(value);
     setShowEdit(true);
   };
-  const handleSearch = (value) => setSearchValue(value);
+  const handleSearch = (value, isSimpleSearch) => {
+    const search = value?.toLowerCase().trim();
+    const dps = dataPoints.filter(
+      (dp) =>
+        checkSearchMatch(search, dp.id) ||
+        checkSearchMatch(search, dp.title) ||
+        checkSearchMatch(search, dp.description) ||
+        dp.tags.some((t) => checkSearchMatch(search, t.title))
+    );
+    setPoints(dps.slice(0, MAX_RESULTS));
+
+    if (isSimpleSearch) return;
+    setSearchValue(value);
+  };
   const handleClear = () => {
     setSearchValue("");
     searchRef.current.focus();
@@ -305,18 +319,6 @@ const Data = ({ data }) => {
     );
   }, [dataPoints, metaDataPoints]);
 
-  useEffect(() => {
-    const search = searchValue?.toLowerCase().trim();
-    console.log({ dataPoints });
-    const dps = dataPoints.filter(
-      (dp) =>
-        checkSearchMatch(search, dp.id) ||
-        checkSearchMatch(search, dp.title) ||
-        checkSearchMatch(search, dp.description) ||
-        dp.tags.some((t) => checkSearchMatch(search, t.title))
-    );
-    setPoints(dps.slice(0, MAX_RESULTS));
-  }, [searchValue, dataPoints]);
   const root = metaDataPoints.find((md) => md.id === "0");
   return (
     <Wrapper>
@@ -325,7 +327,7 @@ const Data = ({ data }) => {
         handleHideMenu={() => setShowMenu(false)}
         data={metaDataPoints}
         onSelectMenu={(value) => {
-          handleSearch(value);
+          handleSearch(value, true);
           setShowMenu(false);
         }}
       />
@@ -377,7 +379,7 @@ const Data = ({ data }) => {
           {favorites.length !== 0 && (
             <HorizontalScroll>
               {favorites.sort(sortOnFavorite).map((p) => (
-                <Point key={p.title} onClick={() => handleSearch(p.title)}>
+                <Point key={p.title} onClick={() => handleSearch(p.id, true)}>
                   <Title>{p.title}</Title>
                 </Point>
               ))}
@@ -389,7 +391,7 @@ const Data = ({ data }) => {
                 .filter((p) => p.count)
                 .sort(sortOnCount)
                 .map((p) => (
-                  <Point key={p.title} onClick={() => handleSearch(p.title)}>
+                  <Point key={p.title} onClick={() => handleSearch(p.id, true)}>
                     <Title>{p.title}</Title>
                     <Counter>{p.count}</Counter>
                   </Point>
@@ -399,7 +401,7 @@ const Data = ({ data }) => {
           {dailies.length !== 0 && (
             <HorizontalScroll>
               {dailies.map((p) => (
-                <Point key={p.title} onClick={() => handleSearch(p.title)}>
+                <Point key={p.title} onClick={() => handleSearch(p.id, true)}>
                   <Title>{p.title}</Title>
                   <Counter gold>{p.count}</Counter>
                 </Point>
@@ -412,7 +414,7 @@ const Data = ({ data }) => {
                 .filter((p) => p.date)
                 .sort(sortOnDate)
                 .map((p) => (
-                  <Point key={p.title} onClick={() => handleSearch(p.title)}>
+                  <Point key={p.title} onClick={() => handleSearch(p.id, true)}>
                     <Title>{p.title}</Title>
                     <Deadline status={p.status.color}>
                       {p.date}
@@ -425,7 +427,7 @@ const Data = ({ data }) => {
           <DataPoints
             dataPoints={points?.sort(sortOnLastUpdate)}
             searchValue={searchValue.trim()}
-            onSelectTag={handleSearch}
+            onSelect={handleSearch}
             onEdit={onEdit}
             showAll={points.length < 4}
             editData={editData}

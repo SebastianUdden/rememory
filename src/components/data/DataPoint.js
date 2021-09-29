@@ -5,6 +5,7 @@ import { Button } from "../button/Button";
 import Checkmark from "../checkmark/Checkmark";
 import { Counter } from "../simpleComponents";
 import Tags from "../tags/Tags";
+import IdList from "../idList/IdList";
 
 const Wrapper = styled.div`
   border: 1px solid #777;
@@ -177,7 +178,7 @@ const formatLink = (d, searchValue, onSelectTag) => {
   return formatBold(d, searchValue);
 };
 
-const formatRow = (d, searchValue, onUpdateDescription, onSelectTag) => {
+const formatRow = (d, searchValue, onUpdateDescription, onSelect) => {
   if (!d) return <br />;
   const preSlice = d.slice(0, 2);
   const postSlice = d.slice(2);
@@ -214,19 +215,19 @@ const formatRow = (d, searchValue, onUpdateDescription, onSelectTag) => {
   } else if (preSlice === "- ") {
     return (
       <Li key={postSlice}>
-        <Span>{formatLink(postSlice, searchValue, onSelectTag)}</Span>
+        <Span>{formatLink(postSlice, searchValue, onSelect)}</Span>
       </Li>
     );
   } else if (preSlice === "# ") {
     return (
-      <H3 key={postSlice}>{formatLink(postSlice, searchValue, onSelectTag)}</H3>
+      <H3 key={postSlice}>{formatLink(postSlice, searchValue, onSelect)}</H3>
     );
   } else if (preSlice === "##") {
     return (
-      <H4 key={postSlice}>{formatLink(postSlice, searchValue, onSelectTag)}</H4>
+      <H4 key={postSlice}>{formatLink(postSlice, searchValue, onSelect)}</H4>
     );
   }
-  return <P key={postSlice}>{formatLink(d, searchValue, onSelectTag)}</P>;
+  return <P key={postSlice}>{formatLink(d, searchValue, onSelect)}</P>;
 };
 
 const DataPoint = ({
@@ -240,7 +241,7 @@ const DataPoint = ({
   favorite,
   lastUpdate,
   hasBackup,
-  onSelectTag,
+  onSelect,
   onEdit,
   showAll,
   editData,
@@ -262,7 +263,7 @@ const DataPoint = ({
     });
   };
   const rows = descriptionRows?.map((d) =>
-    formatRow(d, searchValue, onUpdateDescription, onSelectTag)
+    formatRow(d, searchValue, onUpdateDescription, onSelect)
   );
   const descriptionShorterThanMax =
     showAll || !description || rows.length <= maxRowCount;
@@ -300,10 +301,10 @@ const DataPoint = ({
       </Title>
       {parents?.length > 0 && (
         <>
-          <Tags
+          <IdList
             isParents
-            tags={parents.map((p) => p.title)}
-            onSelectTag={onSelectTag}
+            list={parents}
+            onSelectItem={onSelect}
             searchValue={searchValue}
           />
         </>
@@ -321,17 +322,16 @@ const DataPoint = ({
       {tags?.length > 0 && (
         <Tags
           tags={tags.map((t) => t.title)}
-          onSelectTag={onSelectTag}
+          onSelectTag={onSelect}
           searchValue={searchValue}
         />
       )}
       {children?.length > 0 && (
         <>
           <HR />
-          <Tags
-            isChildren
-            tags={children.map((c) => c.title)}
-            onSelectTag={onSelectTag}
+          <IdList
+            list={children}
+            onSelectItem={onSelect}
             searchValue={searchValue}
           />
         </>

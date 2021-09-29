@@ -7,7 +7,7 @@ const Wrapper = styled.div``;
 const DataPoints = ({
   dataPoints,
   searchValue,
-  onSelectTag,
+  onSelect,
   onEdit,
   showAll,
   editData,
@@ -18,7 +18,7 @@ const DataPoints = ({
         key={dataPoint.id}
         {...dataPoint}
         searchValue={searchValue}
-        onSelectTag={onSelectTag}
+        onSelect={onSelect}
         onEdit={onEdit}
         showAll={showAll}
         editData={editData}
