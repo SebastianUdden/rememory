@@ -188,11 +188,6 @@ interface SimpleDataProps {
   id: string;
 }
 
-interface MetaDataProps extends SimpleDataProps {
-  children: any[];
-  parents: any[];
-}
-
 interface DataProps extends SimpleDataProps {
   children: any[];
   description: string;
