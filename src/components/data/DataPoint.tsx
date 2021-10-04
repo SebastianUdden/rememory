@@ -131,11 +131,11 @@ const InternalLink = styled.button`
   }
 `;
 
-const formatBold = (d, searchValue) => {
+const formatBold = (d: any, searchValue: any) => {
   const boldRegex = /\*(.*?)\*/;
   const p = d.split(boldRegex);
   if (p.length > 1) {
-    return p.map((x, i) => {
+    return p.map((x: any, i: any) => {
       if (i === 1) {
         return <Strong>{getMatching(x, searchValue)}</Strong>;
       }
@@ -145,7 +145,7 @@ const formatBold = (d, searchValue) => {
   return getMatching(d, searchValue);
 };
 
-const formatLink = (d, searchValue, onSelectTag) => {
+const formatLink = (d: any, searchValue: any, onSelectTag: any) => {
   const urlRegex = /\[(.*)\]\((http[^\s]*)\)/;
   const match = d.match(urlRegex);
   if (match) {
@@ -178,7 +178,12 @@ const formatLink = (d, searchValue, onSelectTag) => {
   return formatBold(d, searchValue);
 };
 
-const formatRow = (d, searchValue, onUpdateDescription, onSelect) => {
+const formatRow = (
+  d: any,
+  searchValue: any,
+  onUpdateDescription: any,
+  onSelect: any
+) => {
   if (!d) return <br />;
   const preSlice = d.slice(0, 2);
   const postSlice = d.slice(2);
@@ -230,6 +235,23 @@ const formatRow = (d, searchValue, onUpdateDescription, onSelect) => {
   return <P key={postSlice}>{formatLink(d, searchValue, onSelect)}</P>;
 };
 
+interface Props {
+  id: any;
+  title: any;
+  searchValue: any;
+  description: any;
+  tags: any;
+  children: any;
+  parents: any;
+  favorite: any;
+  lastUpdate: any;
+  hasBackup: any;
+  onSelect: any;
+  onEdit: any;
+  showAll: any;
+  editData: any;
+}
+
 const DataPoint = ({
   id,
   title,
@@ -245,24 +267,26 @@ const DataPoint = ({
   onEdit,
   showAll,
   editData,
-}) => {
+}: Props) => {
   const [showFullDescription, setShowFullDescription] = useState(false);
   const maxRowCount = 5;
   const descriptionRows = description?.split("\n");
-  const todoCount = descriptionRows?.filter((dp) => dp.startsWith("-")).length;
-  const onUpdateDescription = (desc, descEnd) => {
+  const todoCount = descriptionRows?.filter((dp: any) =>
+    dp.startsWith("-")
+  ).length;
+  const onUpdateDescription = (desc: any, descEnd: any) => {
     editData({
       id,
       title,
       description: descriptionRows
-        .map((row) => (row.slice(11) === descEnd ? desc : row))
+        .map((row: any) => (row.slice(11) === descEnd ? desc : row))
         .join("\n"),
       tags,
       children,
       lastUpdate,
     });
   };
-  const rows = descriptionRows?.map((d) =>
+  const rows = descriptionRows?.map((d: any) =>
     formatRow(d, searchValue, onUpdateDescription, onSelect)
   );
   const descriptionShorterThanMax =
@@ -272,7 +296,7 @@ const DataPoint = ({
       ? rows
       : [...rows.slice(0, maxRowCount), "..."];
   const isTodo =
-    title.includes("Todo") || tags.find((t) => t.title.includes("Todo"));
+    title.includes("Todo") || tags.find((t: any) => t.title.includes("Todo"));
   return (
     <Wrapper>
       <Title>
@@ -321,7 +345,7 @@ const DataPoint = ({
       </Description>
       {tags?.length > 0 && (
         <Tags
-          tags={tags.map((t) => t.title)}
+          tags={tags.map((t: any) => t.title)}
           onSelectTag={onSelect}
           searchValue={searchValue}
         />

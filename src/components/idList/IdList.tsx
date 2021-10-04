@@ -7,7 +7,7 @@ const Wrapper = styled.div`
   flex-wrap: wrap;
   margin: 5px 0;
 `;
-const Item = styled.span`
+const Item = styled.span<{ isParents: any }>`
   border-radius: 12px;
   padding: 7px 10px;
   text-transform: capitalize;
@@ -47,9 +47,16 @@ const Item = styled.span`
   margin-bottom: 5px;
 `;
 
-const IdList = ({ list, searchValue, onSelectItem, isParents }) => (
+interface Props {
+  list?: any;
+  searchValue?: any;
+  onSelectItem?: any;
+  isParents?: any;
+}
+
+const IdList = ({ list, searchValue, onSelectItem, isParents }: Props) => (
   <Wrapper>
-    {list?.map(({ id, title }) => (
+    {list?.map(({ id, title }: any) => (
       <Item
         key={id}
         onClick={() => onSelectItem(id, true)}

@@ -7,7 +7,7 @@ const Wrapper = styled.div`
   flex-wrap: wrap;
   margin: 5px 0;
 `;
-const Tag = styled.span`
+const Tag = styled.span<{ isChildren?: boolean; isParents?: boolean }>`
   background-color: #3a3a3a;
   border-radius: 12px;
   padding: 7px 10px;
@@ -62,9 +62,23 @@ const Tag = styled.span`
   margin-bottom: 5px;
 `;
 
-const Tags = ({ tags, searchValue, onSelectTag, isChildren, isParents }) => (
+interface Props {
+  tags?: any;
+  searchValue?: any;
+  onSelectTag?: any;
+  isChildren?: any;
+  isParents?: any;
+}
+
+const Tags = ({
+  tags,
+  searchValue,
+  onSelectTag,
+  isChildren,
+  isParents,
+}: Props) => (
   <Wrapper>
-    {tags?.map((tag) => (
+    {tags?.map((tag: any) => (
       <Tag
         key={tag}
         onClick={() => onSelectTag(tag)}

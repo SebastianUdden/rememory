@@ -16,11 +16,18 @@ const Input = styled.input`
   box-sizing: border-box;
 `;
 
-const Search = ({ searchRef, searchValue, onChange, suggestions }) => {
-  const handleChange = (e) => onChange(e.target.value);
+interface Props {
+  searchRef?: any;
+  searchValue?: any;
+  onChange?: any;
+  suggestions?: any;
+}
+
+const Search = ({ searchRef, searchValue, onChange, suggestions }: Props) => {
+  const handleChange = (e: any) => onChange(e.target.value);
 
   useEffect(() => {
-    const keydown = (e) => {
+    const keydown = (e: any) => {
       if (e.keyCode === 13) {
         searchRef.current.blur();
       }
@@ -43,7 +50,7 @@ const Search = ({ searchRef, searchValue, onChange, suggestions }) => {
         value={searchValue}
       />
       <datalist id="suggestions">
-        {suggestions.map(({ title }) => (
+        {suggestions.map(({ title }: any) => (
           <option key={title} value={title} />
         ))}
       </datalist>

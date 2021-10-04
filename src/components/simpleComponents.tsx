@@ -33,7 +33,7 @@ export const TextArea = styled.textarea`
 export const Wrapper = styled.div`
   text-align: left;
 `;
-export const Row = styled.div`
+export const Row = styled.div<{ marginBottom?: string }>`
   display: flex;
   justify-content: space-between;
   button {
@@ -69,7 +69,7 @@ export const Submit = styled(Cancel)`
     }
   }
 `;
-export const Counter = styled.div`
+export const Counter = styled.div<{ gold?: boolean }>`
   background-color: ${(p) => (p.gold ? "#cc9900" : "#cc1100")};
   color: white;
   padding: 4px;

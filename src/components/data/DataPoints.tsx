@@ -4,6 +4,15 @@ import DataPoint from "./DataPoint";
 
 const Wrapper = styled.div``;
 
+interface Props {
+  dataPoints: any[];
+  searchValue: string;
+  onSelect: any;
+  onEdit: any;
+  showAll: boolean;
+  editData: any;
+}
+
 const DataPoints = ({
   dataPoints,
   searchValue,
@@ -11,7 +20,7 @@ const DataPoints = ({
   onEdit,
   showAll,
   editData,
-}) => (
+}: Props) => (
   <Wrapper>
     {dataPoints?.map((dataPoint) => (
       <DataPoint

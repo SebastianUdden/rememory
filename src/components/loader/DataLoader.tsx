@@ -4,7 +4,7 @@ import Loader from "./Loader";
 
 const Wrapper = styled.div``;
 
-const getFormatedDuration = (duration) => {
+const getFormatedDuration = (duration: any) => {
   const totalSeconds = duration / 1000;
   const minutes = Math.floor(totalSeconds / 60);
   const seconds = Math.floor(totalSeconds % 60);
@@ -14,12 +14,17 @@ const getFormatedDuration = (duration) => {
   }`;
 };
 
-const calculateIncrement = (duration) => duration / 100;
+const calculateIncrement = (duration: any) => duration / 100;
 
-const DataLoader = ({ duration, showDetails }) => {
+interface Props {
+  duration: any;
+  showDetails: any;
+}
+
+const DataLoader = ({ duration, showDetails }: Props) => {
   const [percentage, setPercentage] = useState(0);
   const [increment, setIncrement] = useState(0);
-  const [formatedDuration, setFormatedDuration] = useState(undefined);
+  const [formatedDuration, setFormatedDuration] = useState<any>(undefined);
 
   useEffect(() => {
     setFormatedDuration(getFormatedDuration(duration));

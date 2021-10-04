@@ -3,7 +3,7 @@ import styled from "styled-components";
 import SVG from "../../svgs/SVG";
 import { close } from "../../svgs/close";
 
-const Menu = styled.ul`
+const Menu = styled.ul<{ menuIsOpen: boolean }>`
   box-sizing: border-box;
   position: absolute;
   top: -15px;
@@ -18,7 +18,7 @@ const Menu = styled.ul`
   left: ${(p) => (p.menuIsOpen ? "0" : "-200%")};
 `;
 
-const Item = styled.li`
+const Item = styled.li<{ lvl: number }>`
   position: relative;
   list-style-type: none;
   margin: 0;
@@ -46,7 +46,7 @@ const Item = styled.li`
   }
 `;
 
-const Button = styled.button`
+const Button = styled.button<{ lvl: number }>`
   background-color: inherit;
   color: inherit;
   border: none;
@@ -87,16 +87,21 @@ const Title = styled.h2`
   margin-bottom: 20px;
 `;
 
-const byTitle = (a, b) => {
+const byTitle = (a: any, b: any) => {
   if (a.title > b.title) return 1;
   if (a.title < b.title) return -1;
   return 0;
 };
 
-const getMetaData = (lvl, metaDataId, onSelectMenu, data) => {
+const getMetaData = (
+  lvl: any,
+  metaDataId: any,
+  onSelectMenu: any,
+  data: any
+) => {
   const level = lvl > 1 ? lvl - 0.5 : 1;
-  const metaData = data?.find((d) => d.id === metaDataId);
-  const handleSelect = (e) => {
+  const metaData = data?.find((d: any) => d.id === metaDataId);
+  const handleSelect = (e: any) => {
     onSelectMenu(metaData.title);
   };
   const children = metaData?.children?.sort(byTitle);
@@ -108,14 +113,23 @@ const getMetaData = (lvl, metaDataId, onSelectMenu, data) => {
       </Button>
       {children && (
         <ul>
-          {children.map(({ id }) => getMetaData(level, id, onSelectMenu, data))}
+          {children.map(({ id }: any) =>
+            getMetaData(level, id, onSelectMenu, data)
+          )}
         </ul>
       )}
     </Item>
   );
 };
 
-const SideMenu = ({ showMenu, handleHideMenu, data, onSelectMenu }) => {
+interface Props {
+  showMenu?: any;
+  handleHideMenu?: any;
+  data?: any;
+  onSelectMenu?: any;
+}
+
+const SideMenu = ({ showMenu, handleHideMenu, data, onSelectMenu }: Props) => {
   useEffect(() => {
     if (!showMenu) {
       document.body.style.height = "auto";
@@ -135,8 +149,8 @@ const SideMenu = ({ showMenu, handleHideMenu, data, onSelectMenu }) => {
         <SVG {...close} />
       </Close>
       {data
-        ?.find((d) => d.id === "0")
-        .children?.map(({ id }) => getMetaData(5, id, onSelectMenu, data))}
+        ?.find((d: any) => d.id === "0")
+        .children?.map(({ id }: any) => getMetaData(5, id, onSelectMenu, data))}
     </Menu>
   );
 };

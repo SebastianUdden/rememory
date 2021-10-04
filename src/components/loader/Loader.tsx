@@ -8,7 +8,7 @@ const Wrapper = styled.div`
   width: 100%;
   color: ${(p) => p.color};
 `;
-const Bar = styled.div`
+const Bar = styled.div<{ percentage: number; increment: number }>`
   background-color: ${(p) => p.color};
   border-radius: 3px;
   height: 40px;
@@ -30,13 +30,21 @@ const Percentage = styled.span`
   text-align: right;
 `;
 
+interface Props {
+  color?: any;
+  percentage?: any;
+  increment?: any;
+  formatedDuration?: any;
+  showDetails?: any;
+}
+
 const Loader = ({
   color = "grey",
   percentage,
   increment,
   formatedDuration,
   showDetails,
-}) => (
+}: Props) => (
   <Wrapper color={color}>
     <Bar color={color} percentage={percentage} increment={increment} />
     {showDetails && (

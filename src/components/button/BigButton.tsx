@@ -12,7 +12,12 @@ const Big = styled(Button)`
   border: 1px solid #777;
 `;
 
-const BigButton = ({ onClick, children }) => (
+interface Props {
+  onClick: any;
+  children: any;
+}
+
+const BigButton = ({ onClick, children }: Props) => (
   <Big onClick={onClick}>{children}</Big>
 );
 

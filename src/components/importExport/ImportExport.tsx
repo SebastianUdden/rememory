@@ -11,7 +11,7 @@ const Wrapper = styled.div`
     text-align: left;
   }
 `;
-const Button = styled.button`
+const Button = styled.button<{ disabled?: boolean }>`
   background-color: black;
   color: white;
   border: none;
@@ -61,26 +61,23 @@ const Text = styled.span`
 //   }
 // };
 
-const createFile2 = (data, filename, type) => {
+const createFile2 = (data: any, filename: any, type: any) => {
   const file = new Blob([data], { type: type });
-  if (window.navigator.msSaveOrOpenBlob)
-    // IE10+
-    window.navigator.msSaveOrOpenBlob(file, filename);
-  else {
-    // Others
-    var a = document.createElement("a"),
-      url = URL.createObjectURL(file);
-    a.href = url;
-    a.download = filename;
-    a.style.color = "white";
-    document.getElementById("export").style.marginTop = "15px";
+  var a = document.createElement("a"),
+    url = URL.createObjectURL(file);
+  a.href = url;
+  a.download = filename;
+  a.style.color = "white";
+  const exportEl = document.getElementById("export");
+  if (exportEl) {
+    exportEl.style.marginTop = "15px";
     var text = document.createTextNode("rememory-backup.json");
     a.appendChild(text);
-    document.getElementById("export").appendChild(a);
+    exportEl.appendChild(a);
   }
 };
 
-const addZero = (value) => {
+const addZero = (value: any) => {
   const number = Number.parseInt(value);
   if (number < 10) {
     return `0${number}`;
@@ -89,9 +86,9 @@ const addZero = (value) => {
 };
 
 const exportData = () => {
-  const dataPointsString = localStorage.getItem("rememory-data-points");
+  const dataPointsString = localStorage.getItem("rememory-data-points") || "";
   const dataPoints = JSON.parse(dataPointsString);
-  const dataPointsWithBackupCheck = dataPoints.data.map((item) => ({
+  const dataPointsWithBackupCheck = dataPoints.data.map((item: any) => ({
     ...item,
     hasBackup: true,
   }));
@@ -138,7 +135,7 @@ const exportData = () => {
 //   // window.location.reload();
 // };
 
-const parseBlob = (blob) => {
+const parseBlob = (blob: any) => {
   const data = JSON.parse(blob) || localStorage.getItem("rememory-data-points");
   localStorage.setItem("rememory-data-points", data);
   window.location.reload();
@@ -147,7 +144,7 @@ const parseBlob = (blob) => {
 const ImportExport = () => {
   const [showImport, setShowImport] = useState(false);
 
-  const onFileUpload = async (e) => {
+  const onFileUpload = async (e: any) => {
     const blob = e.target.files[0];
     if (blob && blob.text) {
       blob.text().then(parseBlob);

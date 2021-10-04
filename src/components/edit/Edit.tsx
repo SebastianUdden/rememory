@@ -28,11 +28,11 @@ const EditRow = styled(Row)`
   margin: 20px 0;
 `;
 
-const listDiff = (edit, newEdit, type) =>
-  (edit[type] && !edit[type].every((t) => newEdit[type].includes(t))) ||
-  (edit[type] && !newEdit[type].every((t) => edit[type].includes(t)));
+const listDiff = (edit: any, newEdit: any, type: any) =>
+  (edit[type] && !edit[type].every((t: any) => newEdit[type].includes(t))) ||
+  (edit[type] && !newEdit[type].every((t: any) => edit[type].includes(t)));
 
-const checkDiff = (edit, newEdit) => {
+const checkDiff = (edit: any, newEdit: any) => {
   if (edit.title !== newEdit.title) return true;
   if (edit.description !== newEdit.description) return true;
   if (edit.favorite !== newEdit.favorite) return true;
@@ -48,6 +48,17 @@ const checkDiff = (edit, newEdit) => {
   return false;
 };
 
+interface Props {
+  onEdit?: any;
+  onDelete?: any;
+  onHide?: any;
+  edit?: any;
+  tagSuggestions?: any;
+  childrenSuggestions?: any;
+  updateParents?: any;
+  updateChildren?: any;
+}
+
 const Edit = ({
   onEdit,
   onDelete,
@@ -57,7 +68,7 @@ const Edit = ({
   childrenSuggestions,
   updateParents,
   updateChildren,
-}) => {
+}: Props) => {
   const [showDelete, setShowDelete] = useState(false);
   const [title, setTitle] = useState(edit.title);
   const [description, setDescription] = useState(edit.description);
@@ -67,7 +78,7 @@ const Edit = ({
   const [parents, setParents] = useState(edit.parents || []);
   const [oldParents, setOldParents] = useState([]);
   const [favorite, setFavorite] = useState(edit.favorite);
-  const editRef = useRef(null);
+  const editRef = useRef<any>(null);
 
   const onSubmit = () => {
     if (!title) return onHide();
@@ -94,7 +105,7 @@ const Edit = ({
   });
 
   useEffect(() => {
-    editRef.current.focus();
+    editRef?.current?.focus();
   }, []);
 
   useEffect(() => {
@@ -124,7 +135,7 @@ const Edit = ({
 
   return (
     <Wrapper>
-      <Label for="title">Title</Label>
+      <Label htmlFor="title">Title</Label>
       <Row>
         <Input
           id="title"
@@ -133,7 +144,7 @@ const Edit = ({
           onChange={(e) => setTitle(e.target.value)}
         />
       </Row>
-      <Label for="description">Description</Label>
+      <Label htmlFor="description">Description</Label>
       <TextArea
         id="description"
         ref={editRef}
@@ -144,26 +155,26 @@ const Edit = ({
       {edit.id !== 0 && (
         <List
           title="Tags"
-          onListChange={(list) => setTags(list)}
+          onListChange={(list: any) => setTags(list)}
           defaultList={tags}
           suggestions={tagSuggestions}
         />
       )}
       <List
         title="Children"
-        onListChange={(list) => setChildren(list)}
+        onListChange={(list: any) => setChildren(list)}
         defaultList={children}
         suggestions={childrenSuggestions}
       />
       <List
         title="Parents"
-        onListChange={(list) => setParents(list)}
+        onListChange={(list: any) => setParents(list)}
         defaultList={parents}
         suggestions={childrenSuggestions}
       />
       {edit.id !== 0 && (
         <>
-          <Label for="favorite">Favorite order</Label>
+          <Label htmlFor="favorite">Favorite order</Label>
           <Row>
             <Input
               id="favorite"

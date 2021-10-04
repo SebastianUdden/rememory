@@ -33,7 +33,7 @@ const SettingsButton = styled.button`
     opacity: 0.7;
   }
 `;
-const ShowData = styled.div`
+const ShowData = styled.div<{ showSettings: boolean }>`
   ${(p) =>
     p.showSettings &&
     `
@@ -43,25 +43,27 @@ const ShowData = styled.div`
 `;
 
 const getDuration = () => {
-  const loaderEnd = new Date(localStorage.getItem("loader-end"));
-  const loaderStart = new Date(localStorage.getItem("loader-start"));
+  const end = localStorage.getItem("loader-end") || "";
+  const start = localStorage.getItem("loader-start") || "";
+  const loaderEnd = new Date(end).getTime();
+  const loaderStart = new Date(start).getTime();
   const duration = loaderEnd - loaderStart;
   return duration > 0 ? duration : 0;
 };
 
-function App() {
+const App = () => {
   const [loading, setLoading] = useState(true);
   const [showSettings, setShowSettings] = useState(false);
   const [data] = useState(
-    JSON.parse(localStorage.getItem("rememory-data-points"))
+    JSON.parse(localStorage.getItem("rememory-data-points") || "")
   );
 
   useEffect(() => {
     setLoading(true);
     const start = new Date();
     setTimeout(() => {
-      localStorage.setItem("loader-start", start);
-      localStorage.setItem("loader-end", new Date());
+      localStorage.setItem("loader-start", start.toString());
+      localStorage.setItem("loader-end", new Date().toString());
       setLoading(false);
     }, 2000);
   }, [data]);
@@ -92,6 +94,6 @@ function App() {
       </header>
     </div>
   );
-}
+};
 
 export default App;

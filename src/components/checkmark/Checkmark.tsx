@@ -7,7 +7,12 @@ const SVG = styled.svg`
 const Circle = styled.circle`
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 `;
-const Checkmark = ({ checked }) => (
+
+interface Props {
+  checked?: boolean;
+}
+
+const Checkmark = ({ checked }: Props) => (
   <SVG viewBox="0 0 100 100" height="20px" width="20px">
     <g stroke="currentColor" fill={checked ? "green" : "none"} strokeWidth="5">
       {checked ? (

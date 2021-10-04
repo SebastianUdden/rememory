@@ -10,8 +10,15 @@ const TagsWrapper = styled.div`
   margin-bottom: 15px;
 `;
 
-const List = ({ title, onListChange, defaultList, suggestions }) => {
-  const inputRef = useRef(null);
+interface Props {
+  title?: any;
+  onListChange?: any;
+  defaultList?: any;
+  suggestions?: any;
+}
+
+const List = ({ title, onListChange, defaultList, suggestions }: Props) => {
+  const inputRef = useRef<any>(null);
   const [value, setValue] = useState("");
   const [list, setList] = useState(defaultList);
 
@@ -19,7 +26,7 @@ const List = ({ title, onListChange, defaultList, suggestions }) => {
     inputRef.current.focus();
     if (
       !value ||
-      list.some((v) => v.title.toLowerCase() === value.toLowerCase())
+      list.some((v: any) => v.title.toLowerCase() === value.toLowerCase())
     ) {
       setValue("");
       return;
@@ -27,7 +34,7 @@ const List = ({ title, onListChange, defaultList, suggestions }) => {
     const newItem =
       suggestions[0] &&
       suggestions[0].title &&
-      suggestions.find((v) => v.title === value);
+      suggestions.find((v: any) => v.title === value);
     if (newItem) {
       setList([...list, newItem]);
     } else {
@@ -41,7 +48,7 @@ const List = ({ title, onListChange, defaultList, suggestions }) => {
   }, [onListChange, list]);
   return (
     <Wrapper>
-      <Label for={title}>{title}</Label>
+      <Label htmlFor={title}>{title}</Label>
       <Row marginBottom={"10px"}>
         <Input
           id={title}
@@ -54,8 +61,8 @@ const List = ({ title, onListChange, defaultList, suggestions }) => {
         {suggestions && (
           <datalist id={`${title}-suggestions`}>
             {suggestions
-              .filter((s) => !list.some((l) => l.id === s.id))
-              .map((s) => (
+              .filter((s: any) => !list.some((l: any) => l.id === s.id))
+              .map((s: any) => (
                 <option value={s.title} />
               ))}
           </datalist>
@@ -67,9 +74,9 @@ const List = ({ title, onListChange, defaultList, suggestions }) => {
       <TagsWrapper>
         {list.length > 0 && (
           <Tags
-            tags={list.map((l) => l.title || l.value || l)}
-            onSelectTag={(value) => {
-              setList(list.filter((v) => v.title !== value));
+            tags={list.map((l: any) => l.title || l.value || l)}
+            onSelectTag={(value: any) => {
+              setList(list.filter((v: any) => v.title !== value));
             }}
           />
         )}

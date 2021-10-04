@@ -25,7 +25,7 @@ const HorizontalScroll = styled(Row)`
   padding-bottom: 15px;
   margin-bottom: 0;
 `;
-const ButtonWrapper = styled.div`
+const ButtonWrapper = styled.div<{ status?: string; margin: string }>`
   background-color: ${(p) => p.status || "inherit"};
   border-radius: 6px;
   transition: background-color 300ms ease;
@@ -52,7 +52,7 @@ const Title = styled.strong`
   margin-right: 5px;
   white-space: nowrap;
 `;
-const Deadline = styled.span`
+const Deadline = styled.span<{ status?: string }>`
   background-color: ${(p) => p.status || "#444"};
   padding: 5px;
   border-radius: 6px;
@@ -60,16 +60,17 @@ const Deadline = styled.span`
   white-space: nowrap;
 `;
 
-const checkSearchMatch = (search, value) =>
+const checkSearchMatch = (search: string, value: string) =>
   value?.toLowerCase().includes(search);
 
-const sortOnLastUpdate = (a, b) => {
+const sortOnLastUpdate = (a: DataProps, b: DataProps) => {
   const first = new Date(a.lastUpdate);
   const second = new Date(b.lastUpdate);
   return first < second ? 1 : first > second ? -1 : 0;
 };
 
-const getFavorites = (dataPoints) => {
+const getFavorites = (dataPoints: DataProps[]) => {
+  console.log({ dataPoints });
   const favorites = dataPoints
     .filter((dp) => dp.favorite)
     .map((dp) => ({
@@ -80,7 +81,7 @@ const getFavorites = (dataPoints) => {
   return favorites;
 };
 
-const getDailies = (dataPoints) => {
+const getDailies = (dataPoints: DataProps[]) => {
   const dailiesPoints = dataPoints
     .filter((dp) =>
       dp.tags.find((t) => t.title.toLowerCase().includes("daily"))
@@ -93,7 +94,7 @@ const getDailies = (dataPoints) => {
   return dailiesPoints;
 };
 
-const getTodos = (dataPoints) => {
+const getTodos = (dataPoints: DataProps[]) => {
   const todoPoints = dataPoints
     .filter((dp) => dp.tags.find((t) => t.title.toLowerCase().includes("todo")))
     .map((dp) => ({
@@ -104,7 +105,7 @@ const getTodos = (dataPoints) => {
   return todoPoints;
 };
 
-const getDeadlines = (dataPoints) => {
+const getDeadlines = (dataPoints: DataProps[]) => {
   const deadlinePoints = dataPoints
     .filter((dp) =>
       dp.tags.find((t) => t.title.toLowerCase().includes("deadline"))
@@ -124,7 +125,7 @@ const getDeadlines = (dataPoints) => {
   return deadlinePoints;
 };
 
-const getDateObject = (date) => {
+const getDateObject = (date?: string) => {
   const d = date ? new Date(date) : new Date();
   return {
     month: d.getMonth(),
@@ -132,7 +133,7 @@ const getDateObject = (date) => {
   };
 };
 
-const getStatus = (date) => {
+const getStatus = (date?: string) => {
   const now = getDateObject();
   const then = getDateObject(date);
   if (then.month === now.month && then.day === now.day + 3) {
@@ -158,9 +159,13 @@ const getStatus = (date) => {
   return { label: "passed", color: RED };
 };
 
-const sortOnDate = (a, b) => new Date(a.date) - new Date(b.date);
-const sortOnCount = (a, b) => new Date(a.count) - new Date(b.count);
-const sortOnFavorite = (a, b) => new Date(a.favorite) - new Date(b.favorite);
+const sortOnDate = (a: any, b: any) => {
+  console.log({ a });
+  return new Date(a.date).getTime() - new Date(b.date).getTime();
+};
+const sortOnCount = (a: any, b: any) => parseInt(a.count) - parseInt(b.count);
+const sortOnFavorite = (a: DataProps, b: DataProps) =>
+  parseInt(a.favorite) - parseInt(b.favorite);
 
 const MAX_RESULTS = 10;
 const RED = "#cc1100";
@@ -178,33 +183,60 @@ const sideMenu = {
   favorite: 0,
 };
 
-const Data = ({ data }) => {
-  const searchRef = useRef(null);
+interface SimpleDataProps {
+  title: string;
+  id: string;
+}
+
+interface MetaDataProps extends SimpleDataProps {
+  children: any[];
+  parents: any[];
+}
+
+interface DataProps extends SimpleDataProps {
+  children: any[];
+  description: string;
+  favorite: string;
+  hasBackup: boolean;
+  lastUpdate: string;
+  parents: any[];
+  tags: any[];
+}
+
+interface Props {
+  data: {
+    metaData: any[];
+    data: DataProps[];
+  };
+}
+
+const Data = ({ data }: Props) => {
+  const searchRef = useRef<any>(null);
   const [showMenu, setShowMenu] = useState(false);
   const [dataPoints, setDataPoints] = useState(data?.data || [sideMenu]);
   const [metaDataPoints, setMetaDataPoints] = useState(
     data?.metaData || [sideMenu]
   );
-  const [points, setPoints] = useState([]);
-  const [todos, setTodos] = useState([]);
-  const [dailies, setDailies] = useState([]);
-  const [deadlines, setDeadlines] = useState([]);
-  const [favorites, setFavorites] = useState([]);
-  const [edit, setEdit] = useState({});
+  const [points, setPoints] = useState<any>([]);
+  const [todos, setTodos] = useState<any>([]);
+  const [dailies, setDailies] = useState<any>([]);
+  const [deadlines, setDeadlines] = useState<any>([]);
+  const [favorites, setFavorites] = useState<any>([]);
+  const [edit, setEdit] = useState<any>({});
   const [showEdit, setShowEdit] = useState(false);
   const [showAdd, setShowAdd] = useState(false);
   const [addStatus, setAddStatus] = useState("inherit");
   const [searchValue, setSearchValue] = useState("");
-  const [tagSuggestions, setTagSuggestions] = useState([]);
-  const [childrenSuggestions, setChildrenSuggestions] = useState([]);
+  const [tagSuggestions, setTagSuggestions] = useState<any>([]);
+  const [childrenSuggestions, setChildrenSuggestions] = useState<any>([]);
 
-  const onDataChange = (status) => {
+  const onDataChange = (status: any) => {
     setShowAdd(false);
     setShowEdit(false);
     setAddStatus(status);
     setTimeout(() => setAddStatus("inherit"), 200);
   };
-  const addData = (dataPoint) => {
+  const addData = (dataPoint: DataProps) => {
     const newDataPoints = [dataPoint, ...dataPoints];
     setDataPoints(newDataPoints);
     const newMetaDataPoints = [
@@ -214,7 +246,7 @@ const Data = ({ data }) => {
     setMetaDataPoints(newMetaDataPoints);
     onDataChange("#008800");
   };
-  const editData = (dataPoint) => {
+  const editData = (dataPoint: any) => {
     const newDataPoints = [
       dataPoint,
       ...dataPoints.filter((dp) => dp.id !== dataPoint.id),
@@ -232,13 +264,13 @@ const Data = ({ data }) => {
     setMetaDataPoints(newMetaDataPoints);
     onDataChange("#008800");
   };
-  const deleteData = (id) => {
+  const deleteData = (id: string) => {
     const newDataPoints = [...dataPoints.filter((dp) => dp.id !== id)];
     setDataPoints(newDataPoints);
     onDataChange("#880000");
   };
-  const updateParents = (parent, children, removedChild) => {
-    const childrenIndexes = children.map((c) => {
+  const updateParents = (parent: any, children: any, removedChild: any) => {
+    const childrenIndexes = children.map((c: DataProps) => {
       return dataPoints?.findIndex((d) => c.id === d.id);
     });
     const updatedDataPoints = dataPoints.map((d, i) => {
@@ -257,8 +289,8 @@ const Data = ({ data }) => {
     });
     setDataPoints(updatedDataPoints);
   };
-  const updateChildren = (child, parents, removedParent) => {
-    const parentsIndexes = parents.map((p) => {
+  const updateChildren = (child: any, parents: any, removedParent: any) => {
+    const parentsIndexes = parents.map((p: DataProps) => {
       return dataPoints?.findIndex((d) => p.id === d.id);
     });
     const updatedDataPoints = dataPoints.map((d, i) => {
@@ -278,11 +310,11 @@ const Data = ({ data }) => {
     setDataPoints(updatedDataPoints);
   };
   const onHide = () => onDataChange("#888888");
-  const onEdit = (value) => {
+  const onEdit = (value: any) => {
     setEdit(value);
     setShowEdit(true);
   };
-  const handleSearch = (value, isSimpleSearch) => {
+  const handleSearch = (value: any, isSimpleSearch: any) => {
     const search = value?.toLowerCase().trim();
     const dps = dataPoints.filter(
       (dp) =>
@@ -298,7 +330,9 @@ const Data = ({ data }) => {
   };
   const handleClear = () => {
     setSearchValue("");
-    searchRef.current.focus();
+    if (searchRef?.current) {
+      searchRef.current.focus();
+    }
   };
 
   useEffect(() => {
@@ -319,14 +353,14 @@ const Data = ({ data }) => {
     );
   }, [dataPoints, metaDataPoints]);
 
-  const root = metaDataPoints.find((md) => md.id === "0");
+  const root = metaDataPoints.find((md) => md.id === "0") || { children: [] };
   return (
     <Wrapper>
       <SideMenu
         showMenu={showMenu}
         handleHideMenu={() => setShowMenu(false)}
         data={metaDataPoints}
-        onSelectMenu={(value) => {
+        onSelectMenu={(value: any) => {
           handleSearch(value, true);
           setShowMenu(false);
         }}
@@ -354,7 +388,7 @@ const Data = ({ data }) => {
       {!showAdd && !showEdit && (
         <>
           <Row>
-            {root.children.length !== 0 && (
+            {root?.children?.length !== 0 && (
               <ButtonWrapper status={addStatus} margin="0 4px 0 0">
                 <BigButton onClick={() => setShowMenu(true)}>
                   <SVG {...verticalSplit} />
@@ -378,7 +412,7 @@ const Data = ({ data }) => {
           </Row>
           {favorites.length !== 0 && (
             <HorizontalScroll>
-              {favorites.sort(sortOnFavorite).map((p) => (
+              {favorites.sort(sortOnFavorite).map((p: any) => (
                 <Point key={p.title} onClick={() => handleSearch(p.id, true)}>
                   <Title>{p.title}</Title>
                 </Point>
@@ -388,9 +422,9 @@ const Data = ({ data }) => {
           {todos.length !== 0 && (
             <HorizontalScroll>
               {todos
-                .filter((p) => p.count)
+                .filter((p: any) => p.count)
                 .sort(sortOnCount)
-                .map((p) => (
+                .map((p: any) => (
                   <Point key={p.title} onClick={() => handleSearch(p.id, true)}>
                     <Title>{p.title}</Title>
                     <Counter>{p.count}</Counter>
@@ -400,7 +434,7 @@ const Data = ({ data }) => {
           )}
           {dailies.length !== 0 && (
             <HorizontalScroll>
-              {dailies.map((p) => (
+              {dailies.map((p: any) => (
                 <Point key={p.title} onClick={() => handleSearch(p.id, true)}>
                   <Title>{p.title}</Title>
                   <Counter gold>{p.count}</Counter>
@@ -411,9 +445,9 @@ const Data = ({ data }) => {
           {deadlines.length !== 0 && (
             <HorizontalScroll>
               {deadlines
-                .filter((p) => p.date)
+                .filter((p: any) => p.date)
                 .sort(sortOnDate)
-                .map((p) => (
+                .map((p: any) => (
                   <Point key={p.title} onClick={() => handleSearch(p.id, true)}>
                     <Title>{p.title}</Title>
                     <Deadline status={p.status.color}>
