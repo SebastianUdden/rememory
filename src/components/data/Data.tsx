@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
+import { GREEN, GREY, RED } from "../../constants/colors";
 import { REMEMORY_LOCALSTORAGE } from "../../constants/constants";
 import Add from "../add/Add";
 import Edit from "../edit/Edit";
@@ -53,10 +54,6 @@ interface Props {
     data: DataProps[];
   };
 }
-
-const RED = "#880000";
-const GREEN = "#008800";
-const GREY = "#888888";
 
 const Data = ({ data }: Props) => {
   const [dataPoints, setDataPoints] = useState(data?.data || [sideMenu]);
