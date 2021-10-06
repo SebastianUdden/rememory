@@ -11,14 +11,15 @@ import {
   Wrapper,
 } from "../simpleComponents";
 import List from "../list/List";
+import { DataProps } from "../data/Data";
 
 const AddRow = styled(Row)`
   margin-top: 20px;
 `;
 
 interface Props {
-  onCreateMemory?: any;
-  onHide?: any;
+  onCreateMemory: (dataPoint: DataProps) => void;
+  onHide?: () => void;
   tagSuggestions?: any;
   childrenSuggestions?: any;
 }
@@ -29,10 +30,10 @@ const Add = ({
   tagSuggestions,
   childrenSuggestions,
 }: Props) => {
-  const [title, setTitle] = useState(undefined);
-  const [description, setDescription] = useState(undefined);
-  const [tags, setTags] = useState([]);
-  const [children, setChildren] = useState([]);
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [tags, setTags] = useState<any>([]);
+  const [children, setChildren] = useState<any>([]);
   const titleRef = useRef<any>(null);
 
   const onSubmit = () => {
@@ -46,7 +47,7 @@ const Add = ({
       description,
       tags,
       children,
-      lastUpdate: new Date(),
+      lastUpdate: new Date().toString(),
       hasBackup: false,
     });
   };

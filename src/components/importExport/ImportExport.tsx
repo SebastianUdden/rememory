@@ -3,6 +3,10 @@ import styled from "styled-components";
 import SVG from "../../svgs/SVG";
 import { cloudUpload } from "../../svgs/cloud-upload";
 import { cloudDownload } from "../../svgs/cloud-download";
+import {
+  REMEMORY_FILENAME,
+  REMEMORY_LOCALSTORAGE,
+} from "../../constants/constants";
 
 const Wrapper = styled.div`
   display: flex;
@@ -41,27 +45,8 @@ const Strong = styled.strong`
 const Text = styled.span`
   margin-left: 8px;
 `;
-// const createFile = (data, filename, type) => {
-//   const file = new Blob([data], { type: type });
-//   if (window.navigator.msSaveOrOpenBlob)
-//     // IE10+
-//     window.navigator.msSaveOrOpenBlob(file, filename);
-//   else {
-//     // Others
-//     var a = document.createElement("a"),
-//       url = URL.createObjectURL(file);
-//     a.href = url;
-//     a.download = filename;
-//     document.body.appendChild(a);
-//     a.click();
-//     setTimeout(function () {
-//       document.body.removeChild(a);
-//       window.URL.revokeObjectURL(url);
-//     }, 0);
-//   }
-// };
 
-const createFile2 = (data: any, filename: any, type: any) => {
+const createFile = (data: any, filename: any, type: any) => {
   const file = new Blob([data], { type: type });
   var a = document.createElement("a"),
     url = URL.createObjectURL(file);
@@ -71,7 +56,7 @@ const createFile2 = (data: any, filename: any, type: any) => {
   const exportEl = document.getElementById("export");
   if (exportEl) {
     exportEl.style.marginTop = "15px";
-    var text = document.createTextNode("rememory-backup.json");
+    var text = document.createTextNode(REMEMORY_FILENAME);
     a.appendChild(text);
     exportEl.appendChild(a);
   }
@@ -86,7 +71,7 @@ const addZero = (value: any) => {
 };
 
 const exportData = () => {
-  const dataPointsString = localStorage.getItem("rememory-data-points") || "";
+  const dataPointsString = localStorage.getItem(REMEMORY_LOCALSTORAGE) || "";
   const dataPoints = JSON.parse(dataPointsString);
   const dataPointsWithBackupCheck = dataPoints.data.map((item: any) => ({
     ...item,
@@ -96,7 +81,7 @@ const exportData = () => {
     ...dataPoints,
     data: dataPointsWithBackupCheck,
   });
-  localStorage.setItem("rememory-data-points", result);
+  localStorage.setItem(REMEMORY_LOCALSTORAGE, result);
   const now = new Date();
   const year = now.getUTCFullYear();
   const month = addZero(now.getUTCMonth());
@@ -104,40 +89,16 @@ const exportData = () => {
   const hours = addZero(now.getUTCHours());
   const minutes = addZero(now.getUTCMinutes());
 
-  createFile2(
+  createFile(
     JSON.stringify(result),
     `rememory-backup-${year}-${month}-${date}_${hours}-${minutes}.json`,
     "application/json"
   );
 };
 
-// const exportData = () => {
-//   const dataPointsString = localStorage.getItem("rememory-data-points");
-//   const dataPoints = JSON.parse(dataPointsString);
-//   const dataPointsWithBackupCheck = dataPoints.map((item) => ({
-//     ...item,
-//     hasBackup: true,
-//   }));
-//   const result = JSON.stringify(dataPointsWithBackupCheck);
-//   localStorage.setItem("rememory-data-points", result);
-//   const now = new Date();
-//   const year = now.getUTCFullYear();
-//   const month = addZero(now.getUTCMonth());
-//   const date = addZero(now.getUTCDate());
-//   const hours = addZero(now.getUTCHours());
-//   const minutes = addZero(now.getUTCMinutes());
-
-//   createFile2(
-//     JSON.stringify(result),
-//     `rememory-backup-${year}-${month}-${date}_${hours}-${minutes}.json`,
-//     "application/json"
-//   );
-//   // window.location.reload();
-// };
-
 const parseBlob = (blob: any) => {
-  const data = JSON.parse(blob) || localStorage.getItem("rememory-data-points");
-  localStorage.setItem("rememory-data-points", data);
+  const data = JSON.parse(blob) || localStorage.getItem(REMEMORY_LOCALSTORAGE);
+  localStorage.setItem(REMEMORY_LOCALSTORAGE, data);
   window.location.reload();
 };
 

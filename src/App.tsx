@@ -4,6 +4,7 @@ import "./App.css";
 import Data from "./components/data/Data";
 import ImportExport from "./components/importExport/ImportExport";
 import DataLoader from "./components/loader/DataLoader";
+import { REMEMORY_LOCALSTORAGE } from "./constants/constants";
 import { arrowBack } from "./svgs/arrow-back";
 import { settingsApplication } from "./svgs/settings-application";
 import SVG from "./svgs/SVG";
@@ -55,7 +56,7 @@ const App = () => {
   const [loading, setLoading] = useState(true);
   const [showSettings, setShowSettings] = useState(false);
   const [data] = useState(
-    JSON.parse(localStorage.getItem("rememory-data-points") || "")
+    JSON.parse(localStorage.getItem(REMEMORY_LOCALSTORAGE) || "")
   );
 
   useEffect(() => {
