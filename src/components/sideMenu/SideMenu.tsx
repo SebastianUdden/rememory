@@ -150,7 +150,9 @@ const SideMenu = ({ showMenu, handleHideMenu, data, onSelectMenu }: Props) => {
       </Close>
       {data
         ?.find((d: any) => d.id === "0")
-        .children?.map(({ id }: any) => getMetaData(5, id, onSelectMenu, data))}
+        ?.children?.map(({ id }: any) =>
+          getMetaData(5, id, onSelectMenu, data)
+        )}
     </Menu>
   );
 };
