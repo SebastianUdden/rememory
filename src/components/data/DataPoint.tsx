@@ -149,30 +149,45 @@ const formatLink = (d: any, searchValue: any, onSelectTag: any) => {
   const urlRegex = /\[(.*)\]\((http[^\s]*)\)/;
   const match = d.match(urlRegex);
   if (match) {
+    const remainder = d.split(urlRegex);
     return (
-      <A href={match[2]} target="_blank">
-        {formatBold(match[1], searchValue)}
-      </A>
+      <>
+        {formatBold(remainder[0], searchValue)}
+        <A href={match[2]} target="_blank">
+          {formatBold(match[1], searchValue)}
+        </A>
+        {formatBold(remainder[3], searchValue)}
+      </>
     );
   }
 
   const alternateUrlRegex = /(http[^\s]*)/;
   const alternateMatch = d.match(alternateUrlRegex);
   if (alternateMatch) {
+    const remainder = d.split(alternateUrlRegex);
     return (
-      <A href={alternateMatch[1]} target="_blank">
-        {formatBold(alternateMatch[1], searchValue)}
-      </A>
+      <>
+        {formatBold(remainder[0], searchValue)}
+        <A href={alternateMatch[1]} target="_blank">
+          {formatBold(alternateMatch[1], searchValue)}
+        </A>
+        {formatBold(remainder[2], searchValue)}
+      </>
     );
   }
 
-  const internalLinkRegex = /\+(.*)\+/;
+  const internalLinkRegex = /\[(.*)\]\(\)/;
   const internalLinkMatch = d.match(internalLinkRegex);
   if (internalLinkMatch) {
+    const remainder = d.split(internalLinkRegex);
     return (
-      <InternalLink onClick={() => onSelectTag(internalLinkMatch[1])}>
-        {formatBold(internalLinkMatch[1], searchValue)}
-      </InternalLink>
+      <>
+        {formatBold(remainder[0], searchValue)}
+        <InternalLink onClick={() => onSelectTag(internalLinkMatch[1])}>
+          {formatBold(internalLinkMatch[1], searchValue)}
+        </InternalLink>
+        {formatBold(remainder[2], searchValue)}
+      </>
     );
   }
   return formatBold(d, searchValue);

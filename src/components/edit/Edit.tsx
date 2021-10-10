@@ -42,7 +42,9 @@ const checkDiff = (edit: any, newEdit: any) => {
   if (listDiff(edit, newEdit, "children")) {
     return true;
   }
+  console.log("Check parents");
   if (listDiff(edit, newEdit, "parents")) {
+    console.log("Diff exists");
     return true;
   }
   return false;
