@@ -56,6 +56,7 @@ const SearchBar = ({
   const root = metaDataPoints.find((md: any) => md.id === "0") || {
     children: [],
   };
+
   return (
     <>
       <SideMenu

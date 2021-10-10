@@ -214,6 +214,7 @@ const Data = ({ data }: Props) => {
             metaDataPoints={metaDataPoints}
             onShowAdd={() => setShowAdd(true)}
             tagSuggestions={tagSuggestions}
+            searchValue={searchValue}
           />
           <Horizontals dataPoints={dataPoints} handleSearch={handleSearch} />
           <DataPoints
