@@ -56,7 +56,7 @@ const App = () => {
   const [loading, setLoading] = useState(true);
   const [showSettings, setShowSettings] = useState(false);
   const [data] = useState(
-    JSON.parse(localStorage.getItem(REMEMORY_LOCALSTORAGE) || "")
+    JSON.parse(localStorage.getItem(REMEMORY_LOCALSTORAGE) || "{}")
   );
 
   useEffect(() => {
