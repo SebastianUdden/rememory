@@ -130,6 +130,39 @@ const InternalLink = styled.button`
     cursor: pointer;
   }
 `;
+const TitleButton = styled.button`
+  text-align: inherit;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  background-color: inherit;
+  color: inherit;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  :active {
+    color: orange;
+  }
+`;
+const IdCopied = styled.span<{ fadeIdCopied: boolean }>`
+  font-size: 10px;
+  position: absolute;
+  top: 8px;
+  right: 38px;
+  padding: 3px 8px;
+  border-radius: 5px;
+  background-color: #555;
+  color: #fff;
+  opacity: ${(p) => (p.fadeIdCopied ? "1" : "0")};
+  transition: opacity 120ms ease-in-out;
+`;
+
+const copyToClipboard = (text: string) => {
+  navigator.clipboard.writeText(text).then(
+    () => console.log(text, " - Copied to clipboard"),
+    () => console.log(text, " - Failed to copy to clipboard")
+  );
+};
 
 const formatBold = (d: any, searchValue: any) => {
   const boldRegex = /\*(.*?)\*/;
@@ -284,11 +317,26 @@ const DataPoint = ({
   editData,
 }: Props) => {
   const [showFullDescription, setShowFullDescription] = useState(false);
+  const [showIdCopied, setShowIdCopied] = useState(false);
+  const [fadeIdCopied, setFadeIdCopied] = useState(false);
   const maxRowCount = 5;
   const descriptionRows = description?.split("\n");
   const todoCount = descriptionRows?.filter((dp: any) =>
     dp.startsWith("-")
   ).length;
+  const handleTitleClick = () => {
+    copyToClipboard(id);
+    setShowIdCopied(true);
+    setTimeout(() => {
+      setFadeIdCopied(true);
+    }, 20);
+    setTimeout(() => {
+      setFadeIdCopied(false);
+    }, 880);
+    setTimeout(() => {
+      setShowIdCopied(false);
+    }, 1000);
+  };
   const onUpdateDescription = (desc: any, descEnd: any) => {
     editData({
       id,
@@ -315,7 +363,12 @@ const DataPoint = ({
   return (
     <Wrapper>
       <Title>
-        {getMatching(title, searchValue)}
+        <TitleButton onClick={handleTitleClick}>
+          {getMatching(title, searchValue)}
+        </TitleButton>
+        {showIdCopied && (
+          <IdCopied fadeIdCopied={fadeIdCopied}>Id copied</IdCopied>
+        )}
         <EditWrapper>
           <Edit
             onClick={() =>
